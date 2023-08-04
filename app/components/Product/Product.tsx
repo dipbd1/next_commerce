@@ -12,26 +12,13 @@ type Product = {
   image: string,
 }
 
-// import { Product } from '@/types';
-import Link from 'next/link';
-
-
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, index }) => {
   const dispatch = useDispatch();
   const router = useRouter()
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
   const cart = useSelector(state => state.shop.cart);
-
-  // const handleAddToCart = () => {
-  //   setIsAddingToCart(true);
-  //   dispatch(shopSlice.actions.addToCart(product));
-  //   setTimeout(() => {
-  //     setIsAddingToCart(false);
-  //   }, 1000);
-  // };
-
 
   // handleAddToCart with localStorage
   const handleAddToCart = (e: SyntheticEvent) => {
@@ -61,11 +48,11 @@ const ProductCard = ({ product }) => {
       return acc;
     }, 0);
     setCartCount(count);
-  }
-    , [cart]);
+  }, [cart]);
+
 
   return (
-    <div key={product.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div key={product.id + index} className="bg-white shadow-md rounded-lg overflow-hidden">
       <div className="bg-gray-200 h-48 w-full flex items-center justify-center">
         <img src={product.image} alt={product.name} className="h-32 w-32 object-contain" />
       </div>

@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchProductsAsync } from "./thunks";
+import { fetchProductsAsync, fetchAllCategoriesAsync, fetchProductsByCategoryAsync } from "./thunks";
 
 
 const initialState: ShopSliceState = {
@@ -8,11 +8,12 @@ const initialState: ShopSliceState = {
   status: 'idle',
   error: null,
   cart: [],
+  categories: []
 }
 
 export const shopSlice = createSlice({
   name: 'shop',
-  initialState,
+  initialState: initialState satisfies ShopSliceState as ShopSliceState,
   reducers: {
     setProducts: (state, action: PayloadAction<Product[]>) => {
       state.products = action.payload
@@ -49,7 +50,30 @@ export const shopSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
-  },
+      .addCase(fetchAllCategoriesAsync.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchAllCategoriesAsync.fulfilled, (state, action) => {
+        state.status = 'idle'
+        state.categories = action.payload
+      })
+      .addCase(fetchAllCategoriesAsync.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      }
+      )
+      .addCase(fetchProductsByCategoryAsync.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchProductsByCategoryAsync.fulfilled, (state, action) => {
+        state.status = 'idle'
+        state.products = action.payload
+      })
+      .addCase(fetchProductsByCategoryAsync.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+  }
 })
 
 /* Types */
@@ -58,6 +82,7 @@ export interface ShopSliceState {
   status: 'idle' | 'loading' | 'failed'
   error: string | null
   cart: Product[];
+  categories: [] | string[];
 }
 
 type Product = {

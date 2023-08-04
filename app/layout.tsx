@@ -15,15 +15,12 @@ export default function RootLayout(props: React.PropsWithChildren) {
         <body>
           <SProvider>
             <section
-            // className={styles.container}
             >
               <Nav />
               <header
-              // className={styles.header}
               >
               </header>
               <main
-              // className={styles.main}
               >{props.children}</main>
             </section>
           </SProvider>

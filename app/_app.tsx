@@ -15,9 +15,6 @@ export default function App({
 
 
   return (
-    // <SessionProvider session={session}>
-    // <Component {...pageProps} />
-    // </SessionProvider>
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={<div>Loading ...</div>}>
         <Component {...pageProps} />

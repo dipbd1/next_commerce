@@ -1,3 +1,4 @@
+import AddToCartButton from '@/app/components/Product/AddToCartButton';
 
 async function getData(id: string) {
   const res = await fetch('https://fakestoreapi.com/products/' + id).then(res => res.json());
@@ -15,8 +16,6 @@ export default async function ProductDetailPage({
 
   const product = await getData(id);
 
-
-
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -27,12 +26,7 @@ export default async function ProductDetailPage({
             </h1>
             <p className="mt-1 text-lg text-gray-500">{product.description}</p>
             <p className="mt-1 text-lg font-medium text-gray-900">${product.price}</p>
-            <button
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            // onClick={handleAddToCart}
-            >
-              Add to Cart
-            </button>
+            <AddToCartButton product={product} />
           </div>
           <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
             <img

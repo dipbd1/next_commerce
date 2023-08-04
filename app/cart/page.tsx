@@ -25,11 +25,6 @@ export default function CartPage() {
   const dispatch = useDispatch()
 
 
-
-  // const handleRemoveItem = (item: CartItem) => {
-  //   dispatch(shopSlice.actions.removeFromCart(item.product))
-  // }
-
   // handleRemoveItem with localStorage
   const handleRemoveItem = (item: CartItem) => {
     dispatch(shopSlice.actions.removeFromCart(item.product))
@@ -38,19 +33,6 @@ export default function CartPage() {
     const modifiedCart = JSON.parse(localCart).filter((cartItem: Product) => cartItem.id !== item.product.id);
     localStorage.setItem('cart', JSON.stringify(modifiedCart));
   }
-
-  // const cartItemList = cartItems.reduce((acc, item) => {
-  //   const filteredItem = acc.find(i => i.product.id === item.id)
-  //   if (filteredItem) {
-  //     filteredItem.quantity += 1
-  //   } else {
-  //     acc.push({
-  //       product: item,
-  //       quantity: 1,
-  //     })
-  //   }
-  //   return acc
-  // }, [] as CartItem[])
 
   // cartItemList with localStorage
   const cartItemList = cartItems.reduce((acc, item) => {
@@ -81,7 +63,7 @@ export default function CartPage() {
       ) : (
         <ul>
           {cartItemList.map((item, index) => (
-            <li key={item.product.id + index + 4} className="flex items-center py-4 border-b">
+            <li key={item.product.id + index.toString} className="flex items-center py-4 border-b">
               <div className="flex items-center flex-1">
                 <div className="flex-shrink-0">
                   <img src={item.product.image} alt={item.product.title} className="w-16 h-16 rounded-md" />
@@ -103,6 +85,10 @@ export default function CartPage() {
           ))}
         </ul>
       )}
+      {cartItemList.length > 0 && <div className="flex justify-between items-center py-4">
+        <p className="text-lg font-medium text-gray-900">Total:</p>
+        <p className="text-lg font-medium text-gray-900">${cartItemList.reduce((total, item) => total + item.product.price * item.quantity, 0).toLocaleString('en-us', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}</p>
+      </div>}
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         <FaShoppingCart className="inline-block mr-2" />
         Checkout
