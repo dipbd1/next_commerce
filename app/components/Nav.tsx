@@ -13,7 +13,7 @@ import { useSelector, selectShop } from '@/lib/redux'
 
 /* Instruments */
 import styles from '../styles/layout.module.css'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Nav = () => {
   const pathname = usePathname()
